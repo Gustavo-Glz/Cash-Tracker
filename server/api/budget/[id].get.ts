@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
-  const { id: validatedId } = paramsSquema.parse({ id })
-  const budget = await prisma.budget.findUnique({ where: { id: validatedId } })
+  const { id: validatedId } = paramsSchema.parse({ id })
+  const budget = await budgetRepository.findById(validatedId)
   if (!budget) {
     setResponseStatus(event, 404)
     return {
