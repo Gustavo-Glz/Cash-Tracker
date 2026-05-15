@@ -1,5 +1,6 @@
 import z from 'zod'
 
 export const paramsSchema = z.object({
-  id: z.uuid('El id del presupuesto debe ser un UUID válido')
+  idBudget: z.uuid({ error: 'El id del presupuesto debe ser un UUID válido' }),
+  idExpense: z.uuid({ error: 'El id del gasto debe ser un UUID válido' })
 })

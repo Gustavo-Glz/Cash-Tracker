@@ -46,3 +46,8 @@ export { Prisma }
  * 
  */
 export type Budget = Prisma.BudgetModel
+/**
+ * Model Expense
+ * 
+ */
+export type Expense = Prisma.ExpenseModel

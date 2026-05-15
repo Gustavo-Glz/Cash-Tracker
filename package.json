@@ -18,12 +18,12 @@
     "@prisma/adapter-neon": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "eslint": "^10.3.0",
-    "nuxt": "^4.4.4",
+    "nuxt": "^4.4.5",
     "pg": "^8.20.0",
-    "tailwindcss": "^4.2.4",
+    "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
     "vue": "^3.5.33",
-    "vue-router": "^5.0.6",
+    "vue-router": "^5.0.7",
     "zod": "^4.4.3"
   },
   "devDependencies": {

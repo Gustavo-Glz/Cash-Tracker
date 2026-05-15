@@ -1,11 +1,11 @@
 export default defineEventHandler(async (event) => {
   const idBudget = getRouterParam(event, 'id')
-  const { idBudget: validatedId } = paramsSchema
-    .pick({ idBudget: true })
-    .parse({ idBudget: idBudget })
+  const { idBudget: validatedId } = paramsSchema.pick({ idBudget: true }).parse({ idBudget })
   const budget = await budgetRepository.findById(validatedId)
+  const body = await readValidatedBody(event, expenseSchema.parse)
   if (!budget) {
     throw createError({ statusCode: 404, statusText: 'Budget not found' })
   }
-  return budget
+  const expense = await expenseRepository.create(body, budget.id)
+  return expense
 })
