@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const budget = await budgetRepository.findById(validatedId)
   const body = await readValidatedBody(event, expenseSchema.parse)
   if (!budget) {
-    throw createError({ statusCode: 404, statusText: 'Budget not found' })
+    throw createError({ statusCode: 404, statusMessage: 'Budget not found' })
   }
   const expense = await expenseRepository.create(body, budget.id)
   return expense
