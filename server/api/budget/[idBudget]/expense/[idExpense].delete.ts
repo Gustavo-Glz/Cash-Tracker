@@ -17,5 +17,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Expense not found' })
   }
   await expenseRepository.delete(validatedExpenseId)
-  return { message: 'Expense deleted successfully' }
+  return { message: 'Gasto eliminado correctamente' }
 })

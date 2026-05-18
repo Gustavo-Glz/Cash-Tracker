@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   }
   const updatedBudget = await budgetRepository.update(validatedId, body)
   return {
-    message: 'Budget updated successfully',
+    message: 'Presupuesto actualizado correctamente',
     budget: updatedBudget
   }
 })

@@ -7,5 +7,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Budget not found' })
   }
   const expense = await expenseRepository.create(body, budget.id)
-  return expense
+  return { message: 'Gasto creado correctamente', expense }
 })

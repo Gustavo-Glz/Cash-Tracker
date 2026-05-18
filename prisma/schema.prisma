@@ -12,6 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  email     String   @unique
+  password  String
+  token     String?  @unique
+  confirmed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  budgets   Budget[]
+}
+
 model Budget {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      String
@@ -19,6 +31,8 @@ model Budget {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   expenses  Expense[]
+  user      User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId    String?   @db.Uuid
 }
 
 model Expense {

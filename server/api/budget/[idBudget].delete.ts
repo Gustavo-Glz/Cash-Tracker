@@ -7,6 +7,6 @@ export default defineEventHandler(async (event) => {
   }
   await budgetRepository.delete(validatedId)
   return {
-    message: 'Budget deleted successfully'
+    message: 'Presupuesto eliminado correctamente'
   }
 })

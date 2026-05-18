@@ -20,5 +20,5 @@ export default defineEventHandler(async (event) => {
 
   const body = await readValidatedBody(event, expenseSchema.parse)
   const updatedExpense = await expenseRepository.update(validatedExpenseId, body)
-  return updatedExpense
+  return { message: 'Gasto actualizado correctamente', updatedExpense }
 })

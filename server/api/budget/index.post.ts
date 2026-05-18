@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
   const budget = await prisma.budget.create({ data: body })
   setResponseStatus(event, 201)
   return {
-    message: 'Budget created successfully',
+    message: 'Presupuesto creado correctamente',
     budget
   }
 })
