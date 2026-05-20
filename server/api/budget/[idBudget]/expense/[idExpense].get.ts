@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const idBudget = getRouterParam(event, 'id')
+  const idBudget = getRouterParam(event, 'idBudget')
   const idExpense = getRouterParam(event, 'idExpense')
   const { idBudget: validatedBudgetId } = paramsSchema
     .pick({ idBudget: true })

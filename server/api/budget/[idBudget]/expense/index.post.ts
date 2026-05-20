@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const idBudget = getRouterParam(event, 'id')
+  const idBudget = getRouterParam(event, 'idBudget')
   const { idBudget: validatedId } = paramsSchema.pick({ idBudget: true }).parse({ idBudget })
   const budget = await budgetRepository.findById(validatedId)
   const body = await readValidatedBody(event, expenseSchema.parse)
