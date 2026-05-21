@@ -11,9 +11,9 @@ export default defineEventHandler(async (event) => {
     })
   }
   const hashedPassword = await argon2.hash(password)
-  const tokenGenerated = generateToken()
-  await UserRepository.create({ name, email, password: hashedPassword, token: tokenGenerated })
-  await authEmail(email, name, tokenGenerated)
+  const generatedToken = generateToken()
+  await UserRepository.create({ name, email, password: hashedPassword, token: generatedToken })
+  await registerEmail(email, name, generatedToken)
   setResponseStatus(event, 201)
   return {
     message: 'Usuario registrado correctamente'

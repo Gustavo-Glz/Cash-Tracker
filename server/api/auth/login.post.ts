@@ -14,20 +14,20 @@ export default defineEventHandler(async (event) => {
       data: { message: 'Correo electrónico no registrado' }
     })
 
-  const isUserVerified = user.confirmed
-  if (!isUserVerified)
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized',
-      data: { message: 'Usuario no verificado' }
-    })
-
   const isValidPassword = await argon2.verify(user.password, password)
   if (!isValidPassword)
     throw createError({
       statusCode: 401,
       statusMessage: 'Unauthorized',
       data: { message: 'Contraseña incorrecta' }
+    })
+
+  const isUserVerified = user.confirmed
+  if (!isUserVerified)
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+      data: { message: 'Usuario no verificado' }
     })
 
   const userSession = {

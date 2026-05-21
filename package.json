@@ -19,9 +19,9 @@
     "@prisma/client": "^7.8.0",
     "argon2": "^0.44.0",
     "eslint": "^10.4.0",
-    "nuxt": "^4.4.5",
+    "nuxt": "^4.4.6",
     "nuxt-auth-utils": "^0.5.29",
-    "pg": "^8.20.0",
+    "pg": "^8.21.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
     "unstorage": "^1.17.5",
@@ -39,6 +39,6 @@
     "nuxt-nodemailer": "^1.1.4",
     "prettier": "^3.8.3",
     "prisma": "^7.8.0",
-    "tsx": "^4.22.1"
+    "tsx": "^4.22.3"
   }
 }
