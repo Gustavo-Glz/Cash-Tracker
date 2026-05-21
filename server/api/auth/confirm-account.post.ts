@@ -1,6 +1,4 @@
 export default defineEventHandler(async (event) => {
-  const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'
-  await rateLimit(ip, 'confirm-account', { max: 5, duration: 60, ban: 600 })
   const { token } = await readValidatedBody(event, confirmAccountSchema.parse)
   const user = await UserRepository.findByToken(token)
   if (!user) {

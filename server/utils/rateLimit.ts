@@ -9,6 +9,25 @@ interface RateLimitOptions {
   ban?: number // segundos de ban al exceder (opcional)
 }
 
+interface RateLimitEntry {
+  count: number
+  resetAt: number
+}
+
+if (import.meta.server) {
+  setInterval(
+    async () => {
+      const now = Date.now()
+      const keys = await storage.getKeys()
+      for (const key of keys) {
+        const entry = await storage.getItem<RateLimitEntry>(key)
+        if (entry && now > entry.resetAt) await storage.removeItem(key)
+      }
+    },
+    5 * 60 * 1000
+  )
+}
+
 export async function rateLimit(ip: string, key: string, options: RateLimitOptions) {
   const { max, duration, ban = 0 } = options
   const now = Date.now()
@@ -35,7 +54,10 @@ export async function rateLimit(ip: string, key: string, options: RateLimitOptio
     if (ban > 0) {
       await storage.setItem(banKey, now, { ttl: ban })
     }
-    throw createError({ statusCode: 429, message: 'Too Many Requests' })
+    throw createError({
+      statusCode: 429,
+      message: 'Has excedido el límite de peticiones. Inténtalo de nuevo más tarde.'
+    })
   }
 
   await storage.setItem(storageKey, {
