@@ -1,4 +1,5 @@
-export default defineEventHandler(async () => {
-  const budgets = await budgetRepository.findAll()
+export default defineEventHandler(async (event) => {
+  const { user } = await getUserSession(event)
+  const budgets = await budgetRepository.findAll(user!.id)
   return budgets
 })
