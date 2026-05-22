@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
     email: user.email
   }
 
-  await setUserSession(event, { user: useSession })
+  await setUserSession(event, { user: userSession })
   return {
     user: userSession,
     message: 'Inicio de sesión exitoso'
