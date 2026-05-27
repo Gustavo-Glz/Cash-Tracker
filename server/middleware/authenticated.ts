@@ -7,7 +7,8 @@ export default defineEventHandler(async (event) => {
     '/api/auth/confirm-account',
     '/api/auth/validate-token',
     '/api/auth/forgot-password',
-    '/api/auth/reset-password'
+    '/api/auth/reset-password',
+    '/api/_nuxt_icon/'
   ]
 
   const isPublic = publicRoutes.some((route) => path.startsWith(route))

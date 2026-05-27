@@ -10,6 +10,7 @@ declare module '#auth-utils' {
   // Define any additional data you want to store in the session
   // interface UserSession {
   //   // Add other session-specific data here if needed
+  //   loggedInAt: Date
   // }
 
   // Define secure session data if you have any server-side only data
