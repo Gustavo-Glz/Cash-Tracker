@@ -10,6 +10,12 @@ export const forgotPasswordEmail = async (email: string, name: string, tokenGene
           <div style="font-size: 2rem; font-weight: bold; letter-spacing: 8px; color: #4f46e5;">
             ${tokenGenerated}
           </div>
+          <p>Ingresa el código en el siguiente enlace:</p>
+          <a href="${process.env.NUXT_FRONTEND_URL}/new-password"
+             style="display: inline-block; padding: 12px 24px; background-color: #4f46e5; color: white; text-decoration: none; border-radius: 6px;">
+            Nueva contraseña
+          </a>
+          <p style="color: #6b7280; font-size: 0.875rem;">Si no creaste esta cuenta, ignora este correo.</p>
         </div>
       `
   })

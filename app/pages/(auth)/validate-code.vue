@@ -3,7 +3,7 @@ import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 import z from 'zod'
 
 useSeoMeta({
-  title: 'CashTracker - Confirmar cuenta'
+  title: 'CashTracker - Confirmar código'
 })
 
 definePageMeta({
@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const toast = useToast()
-const { confirmAccount } = useAuthentication()
+const { validateCode } = useAuthentication()
 
 const fields = ref<AuthFormField[]>([
   {
@@ -25,32 +25,32 @@ const fields = ref<AuthFormField[]>([
   }
 ])
 
-const confirmAccountSchema = z.object({
+const validateCodeSchema = z.object({
   otp: z
     .array(z.string())
-    .refine((values) => values.join('').length === 6, 'El código debe ser de 6 dígitos')
-    .refine((values) => /^\d+$/.test(values.join('')), 'Solo se permiten números')
+    .refine((val) => val.join('').length === 6, 'El código debe ser de 6 dígitos')
+    .refine((val) => /^\d+$/.test(val.join('')), 'Solo se permiten números')
 })
 
-type ConfirmAccountSchema = z.output<typeof confirmAccountSchema>
+type ValidateCodeSchema = z.output<typeof validateCodeSchema>
 
-async function onSubmit(payload: FormSubmitEvent<ConfirmAccountSchema>) {
+async function onSubmit(payload: FormSubmitEvent<ValidateCodeSchema>) {
   const otp = payload.data.otp.join('')
 
-  const isSuccess = await confirmAccount(otp)
+  const isSuccess = await validateCode(otp)
 
   if (!isSuccess) {
     toast.add({
       color: 'error',
-      title: 'Error al confirmar cuenta',
+      title: 'Error al validar código',
       description: 'Código de verificación incorrecto.'
     })
     return
   }
   toast.add({
     color: 'success',
-    title: 'Cuenta confirmada',
-    description: 'Inicia sesión para continuar'
+    title: 'Código validado',
+    description: 'Tu código ha sido validado.'
   })
 }
 </script>
@@ -58,12 +58,12 @@ async function onSubmit(payload: FormSubmitEvent<ConfirmAccountSchema>) {
 <template>
   <UAuthForm
     icon="i-lucide-mail-check"
-    title="Confirmar cuenta"
-    description="Ingresa el código de verificación enviado a tu correo electrónico."
+    title="Confirmar código"
+    description="Ingresa el código de confirmación enviado a tu correo electrónico."
     loading-auto
     class="max-w-xs md:w-96 md:max-w-md [&_label]:w-full [&_label]:text-center"
     :ui="{ otp: 'justify-center' }"
-    :schema="confirmAccountSchema"
+    :schema="validateCodeSchema"
     :fields="fields"
     :submit="{ class: 'cursor-pointer', label: 'Confirmar' }"
     @submit="onSubmit"
@@ -71,7 +71,9 @@ async function onSubmit(payload: FormSubmitEvent<ConfirmAccountSchema>) {
     <template #footer>
       <div>
         ¿Correo incorrecto?
-        <ULink to="/register" class="text-primary font-medium">Volver al registro</ULink>
+        <ULink to="/forgot-password" class="text-primary font-medium">
+          Volver a recuperar contraseña
+        </ULink>
       </div>
       <div>
         ¿Ya tienes una cuenta?

@@ -1,6 +1,8 @@
 <template>
   <SharedHeader />
   <UContainer>
-    <slot />
+    <UMain>
+      <slot />
+    </UMain>
   </UContainer>
 </template>

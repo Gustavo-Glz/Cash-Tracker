@@ -3,7 +3,7 @@ import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 import z from 'zod'
 
 useSeoMeta({
-  title: 'Cash Tracker - Iniciar Sesión'
+  title: 'CashTracker - Iniciar sesión'
 })
 
 definePageMeta({
@@ -69,7 +69,7 @@ async function onSubmit(payload: FormSubmitEvent<LoginSchema>) {
     title="Iniciar sesión"
     description="Accede a tu cuenta para controlar tus finanzas."
     loading-auto
-    class="max-w-xs md:max-w-md md:w-96"
+    class="max-w-xs md:w-96 md:max-w-md"
     :schema="loginSchema"
     :fields="fields"
     :submit="{ class: 'cursor-pointer', label: 'Entrar' }"

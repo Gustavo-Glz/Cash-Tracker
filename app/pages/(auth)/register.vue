@@ -3,7 +3,7 @@ import type { AuthFormField, FormSubmitEvent } from '@nuxt/ui'
 import z from 'zod'
 
 useSeoMeta({
-  title: 'Cash Tracker - Crear Cuenta'
+  title: 'Cash Tracker - Crear cuenta'
 })
 
 definePageMeta({
@@ -77,7 +77,7 @@ async function onSubmit(payload: FormSubmitEvent<RegisterSchema>) {
     title="Crear cuenta"
     description="Ingresa tus datos para crear tu cuenta"
     loading-auto
-    class="max-w-xs md:max-w-md md:w-96"
+    class="max-w-xs md:w-96 md:max-w-md"
     :schema="registerSchema"
     :fields="fields"
     :submit="{ class: 'cursor-pointer', label: 'Registrarme' }"
