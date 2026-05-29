@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AuthFormField, FormSubmitEvent } from '@nuxt/ui'
-import z from 'zod'
+import * as z from 'zod'
 
 useSeoMeta({
   title: 'Cash Tracker - Crear cuenta'

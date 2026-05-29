@@ -9,5 +9,3 @@ export const expenseSchema = z.object({
     .number({ error: 'El monto del gasto es obligatorio' })
     .positive({ error: 'El monto del gasto debe ser un número positivo' })
 })
-
-export type Expense = z.infer<typeof expenseSchema>
