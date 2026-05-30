@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxt/eslint": "1.15.2",
     "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "4.8.0",
+    "@nuxt/ui": "4.8.1",
     "@prisma/adapter-neon": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "argon2": "^0.44.0",
@@ -26,16 +26,16 @@
     "typescript": "^6.0.3",
     "unstorage": "^1.17.5",
     "vue": "^3.5.35",
-    "vue-router": "^5.0.7",
+    "vue-router": "^5.1.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.109",
+    "@iconify-json/lucide": "^1.2.110",
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "dotenv": "^17.4.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-prettier": "^5.5.6",
     "nodemailer": "^8.0.9",
     "nuxt-nodemailer": "^1.1.4",
     "prettier": "^3.8.3",

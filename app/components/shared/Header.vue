@@ -79,7 +79,7 @@ const items = ref<DropdownMenuItem[][]>([
             icon="i-lucide-log-in"
             color="primary"
             variant="solid"
-            class="hidden lg:flex cursor-pointer"
+            class="hidden cursor-pointer lg:flex"
           />
         </template>
       </ClientOnly>

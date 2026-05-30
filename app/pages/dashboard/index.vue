@@ -5,7 +5,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const toast = useToast()
 const { create } = useBudget()
 const { budgets, refresh } = await useBudgets()
-const modalOpen = ref(false)
+const openModal = ref(false)
 const state = reactive<Partial<BudgetSchema>>({
   name: undefined,
   amount: undefined
@@ -30,7 +30,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
     toast.add({
       color: 'error',
       title: 'Error',
-      description: 'No se pudo crear el presupuesto. Verifica tus datos e intenta nuevamente.'
+      description: 'No se pudo crear el presupuesto.'
     })
     return
   }
@@ -39,7 +39,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
     title: 'Presupuesto creado correctamente',
     description: 'Puedes verlo en el panel de presupuestos.'
   })
-  modalOpen.value = false
+  openModal.value = false
   state.name = undefined
   state.amount = undefined
   await refresh()
@@ -61,7 +61,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
         label="Crear presupuesto"
         color="secondary"
         variant="subtle"
-        @click="modalOpen = true"
+        @click="openModal = true"
       />
     </template>
   </UPageHeader>
@@ -71,7 +71,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
   <p v-else class="text-muted mt-10">No hay presupuestos aun, comienza creando uno.</p>
 
   <UModal
-    v-model:open="modalOpen"
+    v-model:open="openModal"
     title="Nuevo presupuesto"
     description="Ingresa los datos de tu nuevo presupuesto."
     :close="{ class: 'cursor-pointer' }"

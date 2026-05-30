@@ -18,7 +18,25 @@ export const useBudget = () => {
     }
   }
 
+  const update = async (id: string, name: string, amount: number) => {
+    try {
+      await $fetch(`/api/budget/${id}`, {
+        method: 'PATCH',
+        body: {
+          name,
+          amount
+        }
+      })
+      await fetch()
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   return {
-    create
+    create,
+    update
   }
 }
