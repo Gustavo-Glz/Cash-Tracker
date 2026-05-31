@@ -1,4 +1,4 @@
-import z from 'zod'
+import * as z from 'zod'
 
 export const userSchema = z.object({
   name: z.string().min(3, { error: 'El nombre debe tener al menos 3 caracteres' }),
@@ -7,5 +7,3 @@ export const userSchema = z.object({
   token: z.string().optional(),
   confirmed: z.boolean().optional()
 })
-
-export type User = z.infer<typeof userSchema>

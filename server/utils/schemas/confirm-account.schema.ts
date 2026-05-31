@@ -1,4 +1,4 @@
-import z from 'zod'
+import * as z from 'zod'
 
 export const confirmAccountSchema = z.object({
   token: z
