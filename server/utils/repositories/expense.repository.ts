@@ -1,3 +1,5 @@
+import type { Expense } from '../schemas/expense.schema'
+
 export const expenseRepository = {
   findById: (id: string) => prisma.expense.findUnique({ where: { id } }),
   create: (data: Expense, budgetId: string) =>

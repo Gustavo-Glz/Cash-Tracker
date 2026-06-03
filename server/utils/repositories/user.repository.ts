@@ -1,3 +1,5 @@
+import type { User } from '../schemas/user.schema'
+
 export const UserRepository = {
   findById: (id: string) => prisma.user.findUnique({ where: { id } }),
   findUnique: (email: string) => prisma.user.findUnique({ where: { email } }),

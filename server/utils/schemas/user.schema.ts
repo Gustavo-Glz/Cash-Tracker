@@ -7,3 +7,4 @@ export const userSchema = z.object({
   token: z.string().optional(),
   confirmed: z.boolean().optional()
 })
+export type User = z.infer<typeof userSchema>
