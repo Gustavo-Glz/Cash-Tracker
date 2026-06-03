@@ -1,12 +1,12 @@
 <script setup lang="ts">
 interface Props {
-  budgets: IBudget[]
+  expenses: IExpense[]
 }
 defineProps<Props>()
 </script>
 
 <template>
   <UPageGrid class="mt-10">
-    <BudgetCard v-for="budget in budgets" :key="budget.id" :budget="budget" />
+    <ExpenseCard v-for="expense in expenses" :key="expense.id" :expense="expense" />
   </UPageGrid>
 </template>

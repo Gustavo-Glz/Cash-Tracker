@@ -1,7 +1,7 @@
 export const useBudget = () => {
   const { fetch } = useUserSession()
 
-  const create = async (name: string, amount: number) => {
+  const createBudget = async (name: string, amount: number) => {
     try {
       await $fetch('/api/budget', {
         method: 'POST',
@@ -18,7 +18,7 @@ export const useBudget = () => {
     }
   }
 
-  const update = async (id: string, name: string, amount: number) => {
+  const updateBudget = async (id: string, name: string, amount: number) => {
     try {
       await $fetch(`/api/budget/${id}`, {
         method: 'PATCH',
@@ -35,8 +35,20 @@ export const useBudget = () => {
     }
   }
 
+  const deleteBudget = async (id: string) => {
+    try {
+      await $fetch(`/api/budget/${id}`, { method: 'DELETE' })
+      await fetch()
+      return true
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  }
+
   return {
-    create,
-    update
+    createBudget,
+    updateBudget,
+    deleteBudget
   }
 }

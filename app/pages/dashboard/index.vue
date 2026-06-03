@@ -3,7 +3,7 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 const toast = useToast()
-const { create } = useBudget()
+const { createBudget } = useBudget()
 const { budgets, refresh } = await useBudgets()
 const openModal = ref(false)
 const state = reactive<Partial<BudgetSchema>>({
@@ -24,7 +24,7 @@ type BudgetSchema = z.output<typeof budgetSchema>
 
 async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
   const { name, amount } = payload.data
-  const isSuccess = await create(name, amount)
+  const isSuccess = await createBudget(name, amount)
 
   if (!isSuccess) {
     toast.add({
@@ -37,7 +37,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
   toast.add({
     color: 'success',
     title: 'Presupuesto creado correctamente',
-    description: 'Puedes verlo en el panel de presupuestos.'
+    description: 'Puedes verlo en la lista de presupuestos.'
   })
   openModal.value = false
   state.name = undefined
@@ -49,7 +49,8 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
 <template>
   <UPageHeader
     title="Mis presupuestos"
-    description="Mantén tus presupuestos organizados y controla tus finanzas."
+    description="Organiza tus presupuestos y controla tus finanzas"
+    headline="Finanzas"
     :ui="{
       description: 'hidden lg:block'
     }"
@@ -70,6 +71,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
   <BudgetsGrid v-if="budgets.length > 0" :budgets="budgets" />
   <p v-else class="text-muted mt-10">No hay presupuestos aun, comienza creando uno.</p>
 
+  <!-- Modal para creacion del presupuesto -->
   <UModal
     v-model:open="openModal"
     title="Nuevo presupuesto"

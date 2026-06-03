@@ -3,25 +3,27 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 interface Props {
-  budget: IBudget
+  expense: IExpense
 }
 const props = defineProps<Props>()
 
+const route = useRoute()
+const idBudget = route.params.id as string
 const { checkPassword } = useAuthentication()
-const { updateBudget, deleteBudget } = useBudget()
-const { refresh } = await useBudgets()
+const { refresh } = await useExpenses(idBudget)
+const { updateExpense, deleteExpense } = await useExpense()
 
 const toast = useToast()
 const openModalEdit = ref(false)
 const openModalDelete = ref(false)
-const stateEdit = reactive<Partial<BudgetSchemaEdit>>({
-  name: props.budget.name,
-  amount: +props.budget.amount
+const stateEdit = reactive<Partial<ExpenseSchemaEdit>>({
+  name: props.expense.name,
+  amount: +props.expense.amount
 })
 const stateDelete = reactive({ password: undefined })
 const showPassword = ref(false)
 
-const budgetSchemaEdit = z.object({
+const expenseSchemaEdit = z.object({
   name: z
     .string({ error: 'El nombre es obligatorio' })
     .min(3, { error: 'El nombre debe tener al menos 3 caracteres' }),
@@ -30,37 +32,37 @@ const budgetSchemaEdit = z.object({
     .min(0, { error: 'La cantidad debe ser mayor o igual a 0' })
 })
 
-const budgetSchemaDelete = z.object({
+const expenseSchemaDelete = z.object({
   password: z
     .string({ error: 'La contraseña es obligatoria' })
     .min(8, 'La contraseña debe tener al menos 8 caracteres')
 })
 
-type BudgetSchemaEdit = z.output<typeof budgetSchemaEdit>
-type BudgetSchemaDelet = z.output<typeof budgetSchemaDelete>
+type ExpenseSchemaEdit = z.output<typeof expenseSchemaEdit>
+type ExpenseSchemaDelete = z.output<typeof expenseSchemaDelete>
 
-async function onSubmitEdit(payload: FormSubmitEvent<BudgetSchemaEdit>) {
+async function onSubmitEdit(payload: FormSubmitEvent<ExpenseSchemaEdit>) {
   const { name, amount } = payload.data
-  const isSuccess = await updateBudget(props.budget.id, name, amount)
+  const isSuccess = await updateExpense(idBudget, props.expense.id, name, amount)
 
   if (!isSuccess) {
     toast.add({
       color: 'error',
       title: 'Error',
-      description: 'No se pudo actualizar el presupuesto'
+      description: 'No se pudo actualizar el gasto'
     })
     return
   }
   toast.add({
     color: 'success',
-    title: 'Presupuesto actualizado correctamente',
-    description: 'Puedes verlo en el panel de presupuestos'
+    title: 'Gasto actualizado correctamente',
+    description: 'Puedes verlo en el panel de gastos'
   })
   openModalEdit.value = false
   await refresh()
 }
 
-async function onSubmitDelete(payload: FormSubmitEvent<BudgetSchemaDelet>) {
+async function onSubmitDelete(payload: FormSubmitEvent<ExpenseSchemaDelete>) {
   const { password } = payload.data
   const isValidPassword = await checkPassword(password)
   if (!isValidPassword) {
@@ -73,11 +75,12 @@ async function onSubmitDelete(payload: FormSubmitEvent<BudgetSchemaDelet>) {
   }
   toast.add({
     color: 'success',
-    title: 'Presupuesto eliminado',
-    description: 'El presupuesto y sus gastos han sido eliminados correctamente'
+    title: 'Gasto eliminado',
+    description: 'El gasto a sido eliminado de tu presupuesto'
   })
-  await deleteBudget(props.budget.id)
+  await deleteExpense(idBudget, props.expense.id)
   openModalDelete.value = false
+  stateDelete.password = undefined
   await refresh()
 }
 
@@ -87,23 +90,13 @@ const onClose = () => {
 }
 </script>
 <template>
-  <UPageCard :title="budget.name" variant="subtle" :ui="{ title: 'text-primary' }">
+  <UPageCard :title="expense.name" variant="subtle" :ui="{ title: 'text-primary' }">
     <template #description>
-      <p class="text-secondary font-medium">{{ formatCurrency(budget.amount) }}</p>
-      <span class="text-xs">Ultima actualización: {{ dayMonthYearFormat(budget.updatedAt) }}</span>
+      <p class="text-secondary font-medium">{{ formatCurrency(expense.amount) }}</p>
+      <span class="text-xs">Ultima actualización: {{ dayMonthYearFormat(expense.updatedAt) }}</span>
     </template>
     <template #footer>
       <div class="space-x-2">
-        <UButton
-          class="cursor-pointer"
-          icon="i-lucide-eye"
-          color="neutral"
-          size="xs"
-          variant="subtle"
-          :to="`/dashboard/budget/${budget.id}`"
-        >
-          Ver
-        </UButton>
         <UButton
           class="cursor-pointer"
           icon="i-lucide-edit"
@@ -130,15 +123,15 @@ const onClose = () => {
   <!-- Modal para editar -->
   <UModal
     v-model:open="openModalEdit"
-    title="Editar presupuesto"
-    description="Actualiza el nombre o la cantidad de tu presupuesto"
+    title="Editar gasto"
+    description="Actualiza el nombre o la cantidad de tu gasto"
     :close="{ class: 'cursor-pointer' }"
   >
     <template #body>
       <UForm
         class="w-full space-y-4"
         loading-auto
-        :schema="budgetSchemaEdit"
+        :schema="expenseSchemaEdit"
         :state="stateEdit"
         @submit="onSubmitEdit"
       >
@@ -148,15 +141,15 @@ const onClose = () => {
         <UFormField label="Cantidad" name="amount">
           <UInput v-model="stateEdit.amount" class="w-full" type="number" placeholder="0.00" />
         </UFormField>
-        <UButton block class="cursor-pointer" type="submit">Actualizar presupuesto</UButton>
+        <UButton block class="cursor-pointer" type="submit">Actualizar gasto</UButton>
       </UForm>
     </template>
   </UModal>
   <!-- Modal para eliminar -->
   <UModal
     v-model:open="openModalDelete"
-    title="Eliminar presupuesto"
-    description="Ingresa tu contraseña para eliminar el presupuesto"
+    title="Eliminar gasto"
+    description="Ingresa tu contraseña para eliminar el gasto"
     :close="{ class: 'cursor-pointer' }"
     @update:open="onClose"
   >
@@ -164,7 +157,7 @@ const onClose = () => {
       <UForm
         class="w-full space-y-4"
         loading-auto
-        :schema="budgetSchemaDelete"
+        :schema="expenseSchemaDelete"
         :state="stateDelete"
         @submit="onSubmitDelete"
       >
@@ -197,7 +190,7 @@ const onClose = () => {
             Cancelar
           </UButton>
           <UButton block class="w-1/2 cursor-pointer text-center" color="error" type="submit">
-            Eliminar presupuesto
+            Eliminar gasto
           </UButton>
         </div>
       </UForm>

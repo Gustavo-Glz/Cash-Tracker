@@ -11,7 +11,7 @@ export const useAuthentication = () => {
       navigateTo('/dashboard?message=login-success')
       return true
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return false
     }
   }
@@ -23,11 +23,10 @@ export const useAuthentication = () => {
         body: { name, email, password }
       })
       await fetch()
-      await nextTick()
       navigateTo('/confirm-account?message=registration-success')
       return true
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return false
     }
   }
@@ -44,11 +43,10 @@ export const useAuthentication = () => {
         body: { token: otp }
       })
       await fetch()
-      await nextTick()
       navigateTo('/login?message=account-confirmed')
       return true
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return false
     }
   }
@@ -60,11 +58,10 @@ export const useAuthentication = () => {
         body: { email }
       })
       await fetch()
-      await nextTick()
       navigateTo('/validate-code?message=password-reset-success')
       return true
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return false
     }
   }
@@ -76,11 +73,10 @@ export const useAuthentication = () => {
         body: { token: otp }
       })
       await fetch()
-      await nextTick()
       navigateTo(`/reset-password/${otp}?message=code-validated`)
       return true
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return false
     }
   }
@@ -92,8 +88,21 @@ export const useAuthentication = () => {
         body: { password }
       })
       await fetch()
-      await nextTick()
       navigateTo('/login?message=password-reset-success')
+      return true
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  }
+
+  const checkPassword = async (password: string) => {
+    try {
+      await $fetch('/api/auth/check-password', {
+        method: 'POST',
+        body: { password }
+      })
+      await fetch()
       return true
     } catch (error) {
       console.log(error)
@@ -111,6 +120,7 @@ export const useAuthentication = () => {
     logout,
     forgotPassword,
     validateCode,
-    resetPassword
+    resetPassword,
+    checkPassword
   }
 }
