@@ -9,8 +9,7 @@ const props = defineProps<Props>()
 
 const route = useRoute()
 const idBudget = route.params.id as string
-const { checkPassword } = useAuthentication()
-const { refresh } = await useExpenses(idBudget)
+const { amountAvailable, refresh } = await useExpenses(idBudget)
 const { updateExpense, deleteExpense } = await useExpense()
 
 const toast = useToast()
@@ -20,8 +19,6 @@ const stateEdit = reactive<Partial<ExpenseSchemaEdit>>({
   name: props.expense.name,
   amount: +props.expense.amount
 })
-const stateDelete = reactive({ password: undefined })
-const showPassword = ref(false)
 
 const expenseSchemaEdit = z.object({
   name: z
@@ -32,19 +29,30 @@ const expenseSchemaEdit = z.object({
     .min(0, { error: 'La cantidad debe ser mayor o igual a 0' })
 })
 
-const expenseSchemaDelete = z.object({
-  password: z
-    .string({ error: 'La contraseña es obligatoria' })
-    .min(8, 'La contraseña debe tener al menos 8 caracteres')
-})
-
 type ExpenseSchemaEdit = z.output<typeof expenseSchemaEdit>
-type ExpenseSchemaDelete = z.output<typeof expenseSchemaDelete>
 
 async function onSubmitEdit(payload: FormSubmitEvent<ExpenseSchemaEdit>) {
   const { name, amount } = payload.data
-  const isSuccess = await updateExpense(idBudget, props.expense.id, name, amount)
 
+  if (amount > +props.expense.amount && amountAvailable.value === 0) {
+    toast.add({
+      color: 'error',
+      title: 'Sin presupuesto disponible',
+      description: 'No tienes presupuesto disponible para actualizar este gasto'
+    })
+    return
+  }
+
+  if (amount > amountAvailable.value + Number(props.expense.amount)) {
+    toast.add({
+      color: 'error',
+      title: 'Presupuesto insuficiente',
+      description: `Estas superando el presupuesto disponible para actualizar este gasto`
+    })
+    return
+  }
+
+  const isSuccess = await updateExpense(idBudget, props.expense.id, name, amount)
   if (!isSuccess) {
     toast.add({
       color: 'error',
@@ -62,31 +70,14 @@ async function onSubmitEdit(payload: FormSubmitEvent<ExpenseSchemaEdit>) {
   await refresh()
 }
 
-async function onSubmitDelete(payload: FormSubmitEvent<ExpenseSchemaDelete>) {
-  const { password } = payload.data
-  const isValidPassword = await checkPassword(password)
-  if (!isValidPassword) {
-    toast.add({
-      color: 'error',
-      title: 'Contraseña incorrecta',
-      description: 'Verifica tu contraseña en intenta de nuevo'
-    })
-    return
-  }
-  toast.add({
-    color: 'success',
-    title: 'Gasto eliminado',
-    description: 'El gasto a sido eliminado de tu presupuesto'
-  })
+async function onSubmitDelete() {
   await deleteExpense(idBudget, props.expense.id)
   openModalDelete.value = false
-  stateDelete.password = undefined
   await refresh()
 }
 
 const onClose = () => {
   openModalDelete.value = false
-  stateDelete.password = undefined
 }
 </script>
 <template>
@@ -149,36 +140,12 @@ const onClose = () => {
   <UModal
     v-model:open="openModalDelete"
     title="Eliminar gasto"
-    description="Ingresa tu contraseña para eliminar el gasto"
+    description="Confirmar eliminación del gasto"
     :close="{ class: 'cursor-pointer' }"
     @update:open="onClose"
   >
     <template #body>
-      <UForm
-        class="w-full space-y-4"
-        loading-auto
-        :schema="expenseSchemaDelete"
-        :state="stateDelete"
-        @submit="onSubmitDelete"
-      >
-        <UFormField label="Contraseña" name="password" required>
-          <UInput
-            v-model="stateDelete.password"
-            class="w-full"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Ingresa tu contraseña"
-          >
-            <template #trailing>
-              <UButton
-                :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                color="neutral"
-                variant="link"
-                class="cursor-pointer"
-                @click="showPassword = !showPassword"
-              />
-            </template>
-          </UInput>
-        </UFormField>
+      <UForm class="w-full space-y-4" loading-auto @submit="onSubmitDelete">
         <div class="flex w-full justify-between gap-4">
           <UButton
             block

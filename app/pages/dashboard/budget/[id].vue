@@ -6,7 +6,7 @@ const toast = useToast()
 const route = useRoute()
 const id = route.params.id as string
 const { createExpense } = await useExpense()
-const { expenses, refresh } = await useExpenses(id)
+const { amountAvailable, expenses, refresh } = await useExpenses(id)
 
 const openModalExpense = ref(false)
 const stateExpense = reactive<Partial<ExpenseSchema>>({
@@ -35,6 +35,31 @@ type ExpenseSchema = z.output<typeof expenseSchema>
 
 async function onSubmit(payload: FormSubmitEvent<ExpenseSchema>) {
   const { name, amount } = payload.data
+
+  if (amountAvailable.value === 0) {
+    toast.add({
+      color: 'error',
+      title: 'Error al crear gasto',
+      description: 'No tienes suficiente dinero disponible para crear este gasto.'
+    })
+    openModalExpense.value = false
+    stateExpense.name = undefined
+    stateExpense.amount = undefined
+    return
+  }
+
+  if (amount > amountAvailable.value) {
+    toast.add({
+      color: 'error',
+      title: 'Error al crear gasto',
+      description: 'La cantidad excede el dinero disponible.'
+    })
+    openModalExpense.value = false
+    stateExpense.name = undefined
+    stateExpense.amount = undefined
+    return
+  }
+
   const isSuccess = await createExpense(name, amount, id)
   if (!isSuccess) {
     toast.add({
@@ -78,7 +103,7 @@ async function onSubmit(payload: FormSubmitEvent<ExpenseSchema>) {
   </UPageHeader>
 
   <!-- Mostrar gastos -->
-  <ExpensesGrid v-if="expenses.length > 0" :expenses="expenses" />
+  <ExpensesGrid v-if="expenses.length > 0" />
   <p v-else class="text-muted mt-10">No hay gastos aun, comienza creando uno.</p>
 
   <UModal
