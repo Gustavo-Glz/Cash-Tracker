@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  const { user } = await getUserSession(event)
   const idBudget = getRouterParam(event, 'idBudget')
   const idExpense = getRouterParam(event, 'idExpense')
   const { idBudget: validatedBudgetId } = paramsSchema
@@ -8,12 +9,12 @@ export default defineEventHandler(async (event) => {
     .pick({ idExpense: true })
     .parse({ idExpense: idExpense })
 
-  const budget = await budgetRepository.findById(validatedBudgetId)
+  const budget = await budgetRepository.findById(validatedBudgetId, user!.id)
   if (!budget) {
     throw createError({ statusCode: 404, statusMessage: 'Budget not found' })
   }
 
-  const expense = await expenseRepository.findById(validatedExpenseId)
+  const expense = await expenseRepository.findById(validatedExpenseId, validatedBudgetId)
   if (!expense) {
     throw createError({ statusCode: 404, statusMessage: 'Expense not found' })
   }
