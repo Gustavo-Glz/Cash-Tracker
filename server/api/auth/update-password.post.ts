@@ -1,7 +1,10 @@
 import argon2 from 'argon2'
 
 export default defineEventHandler(async (event) => {
-  const { currentPassword, password } = await readValidatedBody(event, updatePasswordSchema.parse)
+  const { currentPassword, newPassword } = await readValidatedBody(
+    event,
+    updatePasswordSchema.parse
+  )
   const { user: userAuthenticated } = await getUserSession(event)
   if (!userAuthenticated)
     throw createError({
@@ -24,7 +27,7 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Invalid password',
       data: { message: 'La contraseña actual no es válida' }
     })
-  const newPassword = await argon2.hash(password)
-  await UserRepository.update(user.id, { password: newPassword })
+  const hashedNewPassword = await argon2.hash(newPassword)
+  await UserRepository.update(user.id, { password: hashedNewPassword })
   return { message: 'Contraseña actualizada correctamente' }
 })
