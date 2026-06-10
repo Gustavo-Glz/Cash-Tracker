@@ -5,4 +5,5 @@
       <slot />
     </UMain>
   </UContainer>
+  <SharedFooter />
 </template>

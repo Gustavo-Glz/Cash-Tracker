@@ -4,3 +4,9 @@
 @theme {
   --font-sans: 'Geist', sans-serif;
 }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}

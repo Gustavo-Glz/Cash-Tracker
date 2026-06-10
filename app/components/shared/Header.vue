@@ -2,7 +2,7 @@
 import type { DropdownMenuItem } from '@nuxt/ui'
 const { isLoggedIn, logout, user } = useAuthentication()
 
-const items = ref<DropdownMenuItem[][]>([
+const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
       label: user.value?.name,

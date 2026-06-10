@@ -178,6 +178,7 @@ const onClose = () => {
             <template #trailing>
               <UButton
                 :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                size="sm"
                 color="neutral"
                 variant="link"
                 class="cursor-pointer"
