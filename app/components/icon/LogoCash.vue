@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.25 76.77" class="w-auto h-12 shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.25 76.77" class="h-12">
     <path
       fill-rule="evenodd"
       fill="var(--ui-primary)"

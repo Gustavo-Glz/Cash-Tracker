@@ -7,7 +7,9 @@
         <div
           class="w-full place-self-start rounded-tl-lg rounded-tr-lg bg-slate-800 lg:place-self-auto lg:rounded-tl-lg lg:rounded-tr-none lg:rounded-br-none lg:rounded-bl-lg dark:bg-slate-950"
         >
-          <IconLogoCash class="mx-auto" />
+          <NuxtLink to="/">
+            <IconLogoCash class="mx-auto h-16 lg:mt-4" />
+          </NuxtLink>
           <NuxtImg
             class="hidden rounded-bl-lg object-cover lg:block"
             src="/grafico.svg"

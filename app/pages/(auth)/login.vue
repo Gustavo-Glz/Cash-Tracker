@@ -76,14 +76,14 @@ async function onSubmit(payload: FormSubmitEvent<LoginSchema>) {
     @submit="onSubmit"
   >
     <template #footer>
-      <div>
+      <p>
         ¿No tienes una cuenta?
         <ULink to="/register" class="text-primary font-medium">Regístrate</ULink>
-      </div>
-      <div>
+      </p>
+      <p>
         ¿Olvidaste tu contraseña?
         <ULink to="/forgot-password" class="text-primary font-medium">Recuperar Contraseña</ULink>
-      </div>
+      </p>
     </template>
   </UAuthForm>
 </template>
