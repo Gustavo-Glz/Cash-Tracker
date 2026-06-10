@@ -1,33 +1,6 @@
 <script setup lang="ts">
 import type { PageCardProps } from '@nuxt/ui'
 
-useSeoMeta({
-  // --- Básico ---
-  title: 'CashTrackr - Controla tu dinero, sin complicaciones',
-  description:
-    'Registra tus ingresos y gastos, crea presupuestos y visualiza en qué se va tu dinero. Gratis y fácil de usar.',
-
-  // --- Open Graph (Facebook, WhatsApp, etc.) ---
-  ogTitle: 'CashTrackr - Controla tu dinero, sin complicaciones',
-  ogDescription:
-    'Registra tus ingresos y gastos, crea presupuestos y visualiza en qué se va tu dinero. Gratis y fácil de usar.',
-  ogImage: '/og-image.png', // 1200×630 px recomendado
-  ogImageAlt: 'Vista general de CashTrackr',
-  ogUrl: '',
-  ogType: 'website',
-  ogSiteName: 'CashTrackr',
-  ogLocale: 'es_MX',
-
-  // --- Twitter / X ---
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'CashTrackr - Controla tu dinero, sin complicaciones',
-  twitterDescription: 'Presupuestos, gastos e ingresos en un solo lugar. Simple y sin rodeos.',
-  twitterImage: '/og-image.png',
-
-  // --- Indexación ---
-  robots: 'index, follow'
-})
-
 const colorMode = useColorMode()
 const { isLoggedIn } = useAuthentication()
 
