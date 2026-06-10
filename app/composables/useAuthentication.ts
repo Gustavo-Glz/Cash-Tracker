@@ -110,6 +110,35 @@ export const useAuthentication = () => {
     }
   }
 
+  const updatePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      await $fetch('/api/auth/update-password', {
+        method: 'POST',
+        body: { currentPassword, newPassword }
+      })
+      await fetch()
+      return true
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  }
+
+  const updateUser = async (name: string, email: string) => {
+    try {
+      await $fetch('/api/auth/update-user', {
+        method: 'POST',
+        body: { name, email }
+      })
+      await fetch()
+      return { success: true }
+    } catch (err) {
+      const error = err as FetchError
+      const message = error.data?.data?.message ?? error.data?.statusMessage
+      return { success: false, message }
+    }
+  }
+
   return {
     session,
     user,
@@ -121,6 +150,8 @@ export const useAuthentication = () => {
     forgotPassword,
     validateCode,
     resetPassword,
-    checkPassword
+    checkPassword,
+    updatePassword,
+    updateUser
   }
 }
