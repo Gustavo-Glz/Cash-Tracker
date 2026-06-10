@@ -13,7 +13,7 @@
           <NuxtImg
             class="hidden rounded-bl-lg object-cover lg:block"
             src="/grafico.svg"
-            alt="grafico"
+            alt="gráfico"
           />
         </div>
         <div class="row-span-3 pb-10 lg:row-span-1 lg:pb-0">

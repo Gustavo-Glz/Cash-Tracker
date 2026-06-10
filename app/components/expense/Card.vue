@@ -84,7 +84,7 @@ const onClose = () => {
   <UPageCard :title="expense.name" variant="subtle" :ui="{ title: 'text-primary' }">
     <template #description>
       <p class="text-secondary font-medium">{{ formatCurrency(expense.amount) }}</p>
-      <span class="text-xs">Ultima actualización: {{ dayMonthYearFormat(expense.updatedAt) }}</span>
+      <span class="text-xs">Última actualización: {{ dayMonthYearFormat(expense.updatedAt) }}</span>
     </template>
     <template #footer>
       <div class="space-x-2">

@@ -69,7 +69,7 @@ async function onSubmit(payload: FormSubmitEvent<BudgetSchema>) {
 
   <!-- Mostrar presupuestos -->
   <BudgetsGrid v-if="budgets.length > 0" :budgets="budgets" />
-  <p v-else class="text-muted mt-10">No hay presupuestos aun, comienza creando uno.</p>
+  <p v-else class="text-muted mt-10">No hay presupuestos aún, comienza creando uno.</p>
 
   <!-- Modal para creacion del presupuesto -->
   <UModal

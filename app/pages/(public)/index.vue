@@ -95,7 +95,7 @@ const features = ref<PageCardProps[]>([
           Empieza gratis
         </UButton>
         <UButton class="cursor-pointer" icon="i-lucide-arrow-down" to="#features" color="neutral">
-          Saber mas
+          Saber más
         </UButton>
       </template>
       <div

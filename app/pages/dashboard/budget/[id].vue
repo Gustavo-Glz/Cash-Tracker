@@ -104,7 +104,7 @@ async function onSubmit(payload: FormSubmitEvent<ExpenseSchema>) {
 
   <!-- Mostrar gastos -->
   <ExpensesGrid v-if="expenses.length > 0" />
-  <p v-else class="text-muted mt-10">No hay gastos aun, comienza creando uno.</p>
+  <p v-else class="text-muted mt-10">No hay gastos aún, comienza creando uno.</p>
 
   <UModal
     v-model:open="openModalExpense"
