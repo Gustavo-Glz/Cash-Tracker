@@ -13,7 +13,7 @@ Aplicación personal para el control de presupuestos y gastos. Permite registrar
 
 ## Requisitos previos
 
-- Node.js 20 o superior
+- Node.js 22 o superior
 - [pnpm](https://pnpm.io/)
 - Cuenta en [Neon](https://neon.tech/) para la base de datos PostgreSQL
 - Cuenta en [Mailtrap](https://mailtrap.io/) para el servicio de correo
