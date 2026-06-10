@@ -8,5 +8,12 @@ export default defineNuxtConfig({
     }
   },
   modules: ['@nuxt/eslint', '@nuxt/image', '@nuxt/ui', 'nuxt-nodemailer', 'nuxt-auth-utils'],
-  css: ['~/assets/css/main.css']
+  css: ['~/assets/css/main.css'],
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'es'
+      }
+    }
+  }
 })
